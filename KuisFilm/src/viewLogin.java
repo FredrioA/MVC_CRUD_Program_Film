@@ -1,14 +1,8 @@
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.*;
 import javax.swing.*;
 
 
 public class viewLogin extends JFrame{
-    private Connection koneksi;
-    private Statement statement;
-    private ResultSet cek;
     JLabel judul, username, password;
     JTextField txuser;
     JPasswordField txpass;
@@ -43,38 +37,13 @@ public class viewLogin extends JFrame{
         setSize(400,250);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        
-        login.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-               try{
-                    Class.forName("com.mysql.jdbc.Driver");
-                    String url = "jdbc:mysql://localhost/film";
-                    koneksi = DriverManager.getConnection(url, "root", "");
-                    statement = koneksi.createStatement();
-                    try{
-                        String query = "SELECT * FROM admin WHERE username='"+txuser.getText()+"' "
-                                + "AND password='"+txpass.getText()+"'";;
-                        cek = statement.executeQuery(query);
-                        if(cek.next()){
-                                if(txuser.getText().equals(cek.getString("username")) 
-                                        && txpass.getText().equals(cek.getString("password"))){
-                                    setVisible(false);
-                                    mainMVC mvc = new mainMVC();
-                                    JOptionPane.showMessageDialog(null, "Login Berhasil");
-                                }
-                        }else{
-                            JOptionPane.showMessageDialog(null, "Username atau Password Salah");
-                        }    
-                    }catch(Exception sql){
-                        JOptionPane.showMessageDialog(null, sql.getMessage());
-                    }
-                }catch(ClassNotFoundException ex){
-                    JOptionPane.showMessageDialog(null, "Class Not found : " + ex);
-                }catch(SQLException ex){
-                    JOptionPane.showMessageDialog(null, "SQL Exception : " + ex);
-                }
-            }
-        });
+    }
+    
+    public String getNama(){
+        return txuser.getText();
+    }
+    
+    public String getPass(){
+        return txpass.getText();
     }
 }

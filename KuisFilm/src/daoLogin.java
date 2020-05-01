@@ -19,22 +19,20 @@ public class daoLogin {
         }
     }
     
-    public void Login(modelLogin Model){
+    public boolean Login(modelLogin Model){
         try{
             String query = "SELECT * FROM admin WHERE username='"+Model.getName()+"' "
-                                + "AND password='"+Model.getPass()+"'";;
+                                + "AND password='"+Model.getPass()+"'";
             cek = statement.executeQuery(query);
-            if(cek.next()){
-                if(Model.getName().equals(cek.getString("username")) 
-                        && Model.getPass().equals(cek.getString("password"))){
-                    mainMVC mvc = new mainMVC();
-                    JOptionPane.showMessageDialog(null, "Login Berhasil");
-                    }
-                }else{
-                    JOptionPane.showMessageDialog(null, "Username atau Password Salah");
-                }    
-            }catch(Exception sql){
-                JOptionPane.showMessageDialog(null, sql.getMessage());
+            while (cek.next()) {
+                if (Model.getName().equals(cek.getString("username")) && Model.getPass().equals(cek.getString("password"))) {
+                    return true;
+                }
             }
+            return false;
+        }catch(Exception sql){
+            JOptionPane.showMessageDialog(null, sql.getMessage());
+            return false;
+        }
     }
 }

@@ -17,8 +17,18 @@ public class controllerLogin {
             public void actionPerformed(ActionEvent e) {
                 String nama = viewlogin.getNama();
                 String pass = viewlogin.getPass();
-                modellogin.setmodelLogin(nama, pass);
-                daologin.Login(modellogin);
+                if (nama.isEmpty() || pass.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Harap isi semua field");
+                } else {
+                    modellogin.setmodelLogin(nama, pass);
+                    boolean login = daologin.Login(modellogin);
+                    if (login) {
+                        mainMVC mvc = new mainMVC();
+                        JOptionPane.showMessageDialog(null, "Login Berhasil");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Username atau Password Salah");
+                    }
+                }
             }
         });
     }
